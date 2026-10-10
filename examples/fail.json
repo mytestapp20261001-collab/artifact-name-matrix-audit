@@ -1,0 +1,14 @@
+{
+  "matrix": {
+    "os": [
+      "linux",
+      "windows"
+    ],
+    "arch": [
+      "x64",
+      "arm64"
+    ]
+  },
+  "template": "bundle-{os}.zip",
+  "max_artifacts": 10
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "slug": "artifact-name-matrix-audit",
+  "domain": "quality",
+  "guidance_group": "light",
+  "source_commit": "1286096c10a23bbb04aca83679ae3c31f3326030",
+  "source_repository": "mytestapp20261001-collab/mytest-engineering-toolbox",
+  "source_repository_id": 1411411288,
+  "source_path": "tools/artifact-name-matrix-audit",
+  "root_path": ".",
+  "publication_status": "prepared_only; coordinator verifies final repository identity and remote CI",
+  "expected_repository": "mytestapp20261001-collab/artifact-name-matrix-audit",
+  "repository_id": null,
+  "preserved_files": [
+    {
+      "path": "README.md",
+      "size_bytes": 3232,
+      "sha256": "42e31f702df6e17ad28527b4f97f18c937860d3da06a3b8090953dc11b2844c2",
+      "git_blob_sha1": "6ddd4bb95c6bc4587706aa2ad60f89d9f17f7991",
+      "utf8": true,
+      "source_path": "tools/artifact-name-matrix-audit/README.md"
+    },
+    {
+      "path": "SKILL.md",
+      "size_bytes": 1033,
+      "sha256": "c551e2073a22fcd3355abba150fc48665aa905b6e59a66e1a926a860d2d25cee",
+      "git_blob_sha1": "e3ad06e871fb2705ebd6489e3b82da35b62231e4",
+      "utf8": true,
+      "source_path": "tools/artifact-name-matrix-audit/SKILL.md"
+    },
+    {
+      "path": "examples/fail.json",
+      "size_bytes": 175,
+      "sha256": "43e9314a4ed2c5fda55762c3636d52f131ccda839c65cd2822146e113ed807a1",
+      "git_blob_sha1": "2628049f8c7171b5731afab1d872339b32e2ac5a",
+      "utf8": true,
+      "source_path": "tools/artifact-name-matrix-audit/examples/fail.json"
+    },
+    {
+      "path": "examples/pass.json",
+      "size_bytes": 182,
+      "sha256": "f612e5903375a1f5c98c3b9883ccdf816b7e6e33d3f07bd62cbad1bd4bf6f177",
+      "git_blob_sha1": "df60f5a596eb32dd54a0f2dd00b909efe43320cf",
+      "utf8": true,
+      "source_path": "tools/artifact-name-matrix-audit/examples/pass.json"
+    },
+    {
+      "path": "test_tool.py",
+      "size_bytes": 4568,
+      "sha256": "902e3359cd2a2fa52e959eebccc9175d19629c505a293b5e71ed46a0b80759ae",
+      "git_blob_sha1": "d3462c75c1f626e83ead79e17ce8799073da9a06",
+      "utf8": true,
+      "source_path": "tools/artifact-name-matrix-audit/test_tool.py"
+    },
+    {
+      "path": "tool.py",
+      "size_bytes": 5394,
+      "sha256": "966ab09fcb6bb931a81c5faca54545300cf8404b5bf9a4c37d378183acecdc12",
+      "git_blob_sha1": "10692efe1390ee132d38fe31ce46e56ceb237add",
+      "utf8": true,
+      "source_path": "tools/artifact-name-matrix-audit/tool.py"
+    },
+    {
+      "path": "LICENSE",
+      "size_bytes": 1076,
+      "sha256": "dce76471613629e93f3f98b7aaa6f72ff9adb88204a3f83d3045952017ab2f46",
+      "git_blob_sha1": "677c4463d59b560db9c1fde1052eff6eefa6441a",
+      "utf8": true,
+      "source_path": "LICENSE"
+    },
+    {
+      "path": ".gitignore",
+      "size_bytes": 62,
+      "sha256": "e4d5aecc4cd36f593c2e7f3dad08b24261b13466b898004a445614058d29d8de",
+      "git_blob_sha1": "fe9f8fb619601213cbfef4f6eadb5d413d8f7f01",
+      "utf8": true,
+      "source_path": ".gitignore"
+    }
+  ],
+  "readme_checks": [
+    {
+      "label": "README example",
+      "args": [
+        "-I",
+        "tool.py",
+        "examples/pass.json"
+      ],
+      "expected_exit": 0,
+      "output": "json",
+      "documented_command": "python3.12 -I tool.py examples/pass.json"
+    },
+    {
+      "label": "README example",
+      "args": [
+        "-I",
+        "tool.py",
+        "examples/fail.json"
+      ],
+      "expected_exit": 1,
+      "output": "json",
+      "documented_command": "python3.12 -I tool.py examples/fail.json  # expected exit 1"
+    },
+    {
+      "label": "CLI help",
+      "args": [
+        "tool.py",
+        "--help"
+      ],
+      "expected_exit": 0,
+      "output": "help"
+    },
+    {
+      "label": "CLI missing input",
+      "args": [
+        "tool.py"
+      ],
+      "expected_exit": 2,
+      "output": "json"
+    },
+    {
+      "label": "CLI unknown argument",
+      "args": [
+        "tool.py",
+        "--unsupported-migration-test"
+      ],
+      "expected_exit": 2,
+      "output": "json"
+    }
+  ]
+}
