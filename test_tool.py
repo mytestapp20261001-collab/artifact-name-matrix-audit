@@ -64,6 +64,14 @@ class Tests(unittest.TestCase):
     def test_empty_dimension(self):
         data = self.good(); data['matrix']['os'] = []
         with self.assertRaises(tool.BadInput): tool.audit(data)
+    def test_windows_superscript_device_names(self):
+        for name in ('COM¹', 'com².zip', 'Com³.tar.gz', 'LPT¹', 'lpt².txt', 'LpT³.log'):
+            with self.subTest(name=name):
+                self.assertIn('unsafe_artifact_name', self.codes({'matrix':{'x':[name]},'template':'{x}'}))
+        for name in ('COM0', 'COM10', 'COM⁴', 'LPT⁴', 'prefix-COM¹', 'COM¹-suffix'):
+            with self.subTest(name=name):
+                self.assertNotIn('unsafe_artifact_name', self.codes({'matrix':{'x':[name]},'template':'{x}'}))
+
     def test_reserved_name(self):
         data = {'matrix':{'x':['CON']},'template':'{x}.zip'}
         self.assertIn('unsafe_artifact_name', self.codes(data))
@@ -81,5 +89,37 @@ class Tests(unittest.TestCase):
             path = Path(d)/'bad.json'; path.write_text('{"x":'+ '9'*5000 + '}')
             result = subprocess.run([sys.executable,str(HERE/'tool.py'),str(path)],capture_output=True,text=True)
             self.assertEqual(result.returncode, 2); self.assertEqual(json.loads(result.stdout)['status'], 'error')
+
+
+class MaintenanceReceiptTests(unittest.TestCase):
+    def test_maintenance_receipt_is_fail_closed(self):
+        import copy
+        import importlib.util
+        root = Path(__file__).resolve().parent
+        spec = importlib.util.spec_from_file_location('release_validation', root / 'scripts/validate_release.py')
+        validation = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(validation)
+        record = json.loads((root / 'docs/MIGRATION.json').read_text())
+        receipt = json.loads((root / 'docs/MAINTENANCE_2026-10-21.json').read_text())
+        original = {entry['path']: entry['sha256'] for entry in record['preserved_files']}
+        self.assertEqual(validation.maintenance_hashes(record, None), original)
+        result = validation.maintenance_hashes(record, receipt)
+        for change in receipt['changes']:
+            self.assertEqual(result[change['path']], change['current_sha256'])
+        invalid = []
+        for field, value in [('path', '../tool.py'), ('path', 'README.md'),
+                             ('original_sha256', '0' * 64), ('current_sha256', 'invalid'), ('reason', '')]:
+            candidate = copy.deepcopy(receipt)
+            candidate['changes'][0][field] = value
+            invalid.append(candidate)
+        candidate = copy.deepcopy(receipt)
+        candidate['changes'].append(candidate['changes'][0].copy())
+        invalid.append(candidate)
+        candidate = copy.deepcopy(receipt)
+        candidate['repository_id'] = 0
+        invalid.append(candidate)
+        for candidate in invalid:
+            with self.subTest(candidate=candidate), self.assertRaises(ValueError):
+                validation.maintenance_hashes(record, candidate)
 
 if __name__ == "__main__": unittest.main()
