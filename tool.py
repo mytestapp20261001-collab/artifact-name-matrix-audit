@@ -109,7 +109,7 @@ def audit(data):
             findings.append(finding("portable_name_collision", combination_index=index, first_index=portable_seen[portable][0]))
         else:
             portable_seen[portable] = (index, exact_key)
-        if (not name or len(name) > 255 or name in (".", "..") or name[-1:] in (".", " ") or re.search(r'[<>:"/\\|?*\x00-\x1f\x7f]', name) or re.fullmatch(r"(?i)(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?", name)):
+        if (not name or len(name) > 255 or name in (".", "..") or name[-1:] in (".", " ") or re.search(r'[<>:"/\\|?*\x00-\x1f\x7f]', name) or re.fullmatch(r"(?i)(CON|PRN|AUX|NUL|COM[1-9¹²³]|LPT[1-9¹²³])(?:\..*)?", name)):
             findings.append(finding("unsafe_artifact_name", combination_index=index))
     return report(findings, combinations=size, generated=len(names), names=names)
 

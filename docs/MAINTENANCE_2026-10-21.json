@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "repository_id": 1413280108,
+  "base_commit": "37664305c64b03e4c7f341fd6f556ac134da3634",
+  "date": "2026-10-21",
+  "scope": "Authorized maintenance after the fixed migration acceptance; original MIGRATION.json is unchanged. No experiment allocation or promotional text changed.",
+  "changes": [
+    {
+      "path": "test_tool.py",
+      "original_sha256": "902e3359cd2a2fa52e959eebccc9175d19629c505a293b5e71ed46a0b80759ae",
+      "current_sha256": "5d5681bd175dc376f8d22c7460cc27ff936a2041cb5fc6563ef9b37aae7c9ddf",
+      "reason": "Regression coverage and maintenance-receipt rejection tests."
+    },
+    {
+      "path": "tool.py",
+      "original_sha256": "966ab09fcb6bb931a81c5faca54545300cf8404b5bf9a4c37d378183acecdc12",
+      "current_sha256": "61d71180cf43cbd255abbe14f50cf97ec79de2d87593efb9ef6aec00685dcf88",
+      "reason": "Recognize the documented Windows COM/LPT superscript 1, 2 and 3 reserved device basenames, including case and extension variants."
+    }
+  ]
+}
